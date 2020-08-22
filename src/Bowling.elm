@@ -21,25 +21,11 @@ roll pins game =
         initFrames: List Frame -> List Frame
         initFrames frames = case frames of
            []       -> [handleFrame EmptyFrame]
-           [x]      -> case x of
-              FinalizedFrame _  -> handleFrame EmptyFrame :: [x]
-              StartedFrame   _  -> [handleFrame x]
-              _                 -> [x]
            x :: xs -> case x of
                 StartedFrame _ -> handleFrame x :: xs
-                -- FinalizedFrame _ -> 
+                FinalizedFrame _ -> handleFrame EmptyFrame :: (x :: xs)
                 _ -> x::xs
-        --    x :: xs  -> 
-        --     let
-        --             fuck = Debug.log "!!!!!!!!!!!!! Finalized Frame" x
-        --     in
-        --         case x of
-        --         FinalizedFrame f -> 
-                    
-        --             handleFrame EmptyFrame :: FinalizedFrame f :: xs
-        --         _ -> handleFrame x :: xs
-
-
+        
         handleFrame: Frame -> Frame
         handleFrame frame = case frame of
             EmptyFrame -> StartedFrame pins 

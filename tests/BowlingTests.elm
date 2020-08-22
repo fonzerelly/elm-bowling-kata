@@ -45,23 +45,16 @@ all = describe "Bowling"
                     in
                         result |> Expect.equal expectedResult
 
-            -- , test "fifth roll append 3rd frame" <|
-            --     \_-> let
-            --             expectedResult = Ok <| BowlingGame [StartedFrame (4), FinalizedFrame (2 , 3), FinalizedFrame (0, 1)]
-            --             firstRoll = roll 0 initialGame
 
-            --             secondRoll = Result.map (roll 1) firstRoll
-            --                     |> Result.andThen identity
-
-            --             thirdRoll = Result.map (roll 2) secondRoll
-            --                     |> Result.andThen identity
-
-            --             game = Result.map (roll 3) thirdRoll
-            --                     |> Result.andThen identity
-
-            --         in
-            --             Result.map (roll 4) game
-            --                 |> Result.andThen identity
-            --                 |> Expect.equal expectedResult
+            , test "fifth roll should append 3d frame" <|
+                \_-> let
+                        expectedResult = Ok <| BowlingGame [StartedFrame 4, FinalizedFrame (2 , 3), FinalizedFrame (0, 1)]
+                        result = repeatedRoll 4
+                    in
+                        result |> Expect.equal expectedResult
+            -- should work now in general
+            -- missing case: pins > 9
+            -- missing case Tenth Frame
+            
             ]
         ]
