@@ -27,38 +27,23 @@ all = describe "Bowling"
             , test "second roll should finalize frame" <|
                 \_-> let
                         expectedResult = Ok <| BowlingGame [FinalizedFrame (0 , 1)]
-                        game = roll 0 initialGame
+                        result = repeatedRoll 1
 
                     in
-                        Result.map (roll 1) game
-                            |> Result.andThen identity
-                            |> Expect.equal expectedResult
+                        result |> Expect.equal expectedResult
             , test "third roll append 2nd frame" <|
                 \_-> let
                         expectedResult = Ok <| BowlingGame [StartedFrame (2), FinalizedFrame (0 , 1)]
-                        firstRoll = roll 0 initialGame
-                        game = Result.map (roll 1) firstRoll
-                                |> Result.andThen identity
+                        result = repeatedRoll 2
                     in
-                        Result.map (roll 2) game
-                            |> Result.andThen identity
-                            |> Expect.equal expectedResult
+                        result |> Expect.equal expectedResult
 
             , test "fourth roll finalize 2nd frame" <|
                 \_-> let
                         expectedResult = Ok <| BowlingGame [FinalizedFrame (2 , 3), FinalizedFrame (0, 1)]
-                        firstRoll = roll 0 initialGame
-
-                        secondRoll = Result.map (roll 1) firstRoll
-                                |> Result.andThen identity
-
-                        game = Result.map (roll 2) secondRoll
-                                |> Result.andThen identity
-
+                        result = repeatedRoll 3
                     in
-                        Result.map (roll 3) game
-                            |> Result.andThen identity
-                            |> Expect.equal expectedResult
+                        result |> Expect.equal expectedResult
 
             -- , test "fifth roll append 3rd frame" <|
             --     \_-> let
