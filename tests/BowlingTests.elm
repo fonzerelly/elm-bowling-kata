@@ -35,6 +35,7 @@ all = describe "Bowling"
 
                     in
                         result |> Expect.equal expectedResult
+
             , test "third roll append 2nd frame" <|
                 \_-> let
                         expectedResult = Ok <| BowlingGame [StartedFrame (2), FinalizedFrame (0 , 1)]
@@ -68,32 +69,35 @@ all = describe "Bowling"
                         result = repeatedRoll 21
                     in
                         result |> Expect.err
+
             -- , test "should allow three rolls on strike in 10th frame" <|
             --     \_ -> let
-            --             lastFrame frames = case frames of
-            --                []   -> Bowling.EmptyFrame
-            --                [f]  -> f
-            --                _::l -> lastFrame l
+            --             extractFrames g = case g of
+            --                 BowlingGame frames -> frames
 
             --             expectedResult = TenthFrame (10,0,0)
             --             gameAt10thFrame = repeatedRoll 17
 
             --             strike = 10
 
-            --             resultingGame = Result.map (roll strike) gameAt10thFrame
+            --             strikeRoll = Result.map (roll strike) gameAt10thFrame
             --                 |> Result.andThen identity
 
-            --             tenthFrame case resultingGame of
-            --                Bowling.BowlingGame frames -> lastFrame frames                       
+            --             firstStrikeValuedRoll = Result.map (roll 0) strikeRoll
+            --                 |> Result.andThen identity
+
+            --             secondStrikeValuedRoll = Result.map (roll 0) firstStrikeValuedRoll
+            --                 |> Result.andThen identity
+
+            --             fuck = Debug.log "**********" secondStrikeValuedRoll
+
+            --             tenthFrame = secondStrikeValuedRoll
+            --                 |> Result.withDefault (BowlingGame [])
+            --                 |> extractFrames
+            --                 |> List.head
+            --                 |> Maybe.withDefault EmptyFrame
                         
             --           in
-            --             Err "doof" |> Expect.err
-            -- should work now in general
-            -- missing case Tenth Frame
-
-                    -- if first throw in tenth frame is a strike
-                    -- or if the finalizedFrame endsup to 10 then we
-                    -- need a third roll
-            
+            --             tenthFrame |> Expect.equal expectedResult
             ]
         ]
