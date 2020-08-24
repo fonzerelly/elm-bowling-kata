@@ -89,7 +89,35 @@ all = describe "Bowling"
                         secondStrikeValuedRoll = Result.map (roll 0) firstStrikeValuedRoll
                             |> Result.andThen identity
 
-                        fuck = Debug.log "**********" secondStrikeValuedRoll
+                        tenthFrame = secondStrikeValuedRoll
+                            |> Result.withDefault (BowlingGame [])
+                            |> extractFrames
+                            |> List.head
+                            |> Maybe.withDefault EmptyFrame
+                        
+                      in
+                        tenthFrame |> Expect.equal expectedResult
+
+            , test "should allow three rolls on spare in 10th frame" <|
+                \_ -> let
+                        extractFrames g = case g of
+                            BowlingGame frames -> frames
+
+                        expectedResult = TenthFrame (4,6,0)
+                        gameAt10thFrame = repeatedRoll 17
+
+                        spare1 = 4
+
+                        spare2 = 6
+
+                        strikeRoll = Result.map (roll spare1) gameAt10thFrame
+                            |> Result.andThen identity
+
+                        firstStrikeValuedRoll = Result.map (roll spare2) strikeRoll
+                            |> Result.andThen identity
+
+                        secondStrikeValuedRoll = Result.map (roll 0) firstStrikeValuedRoll
+                            |> Result.andThen identity
 
                         tenthFrame = secondStrikeValuedRoll
                             |> Result.withDefault (BowlingGame [])
@@ -99,5 +127,6 @@ all = describe "Bowling"
                         
                       in
                         tenthFrame |> Expect.equal expectedResult
+         
             ]
         ]
