@@ -5,26 +5,31 @@ import Debug
 import List
 import Maybe
 
-type Frame = EmptyFrame | StartedFrame (Int) | FinalizedFrame (Int, Int) -- | TenthFrame (Int, Int, Int)
+type Frame = EmptyFrame | StartedFrame (Int) | FinalizedFrame (Int, Int) | TenthFrame (Int, Int, Int)
 
 type BowlingGame = BowlingGame (List Frame)
 
 roll: Int -> BowlingGame -> Result String BowlingGame
 roll pins game = 
     let
-        -- case BowlingGame of
-        --    BowlingGame frames -> case length frames of
-        --       0 -> Ok <| BowlingGame [StartedFrame(pins)]
-        --       xs -> Ok <| BowlingGame StartedFrame(pins) :: xs
         extractFrames: BowlingGame -> List Frame
         extractFrames g = case g of
             BowlingGame frames -> frames
 
         evaluatesFrameToHandle: List Frame -> Frame
         evaluatesFrameToHandle frames = case frames |> List.head |> Maybe.withDefault EmptyFrame of
-           FinalizedFrame _ -> EmptyFrame
+           FinalizedFrame f -> let
+                                    fst = Tuple.first f
+                                    snd = Tuple.second f
+                                    frameSum = fst + snd
+                               in
+                                    if frameCount == 10 && frameSum == 10 then
+                                        TenthFrame (fst, snd, pins)
+                                    else
+                                        EmptyFrame
            StartedFrame f -> StartedFrame f
            EmptyFrame -> EmptyFrame
+           TenthFrame _ -> EmptyFrame
             
         prependFrame:List Frame -> Frame -> List Frame
         prependFrame frames frame = 

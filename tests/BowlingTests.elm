@@ -70,34 +70,34 @@ all = describe "Bowling"
                     in
                         result |> Expect.err
 
-            -- , test "should allow three rolls on strike in 10th frame" <|
-            --     \_ -> let
-            --             extractFrames g = case g of
-            --                 BowlingGame frames -> frames
+            , test "should allow three rolls on strike in 10th frame" <|
+                \_ -> let
+                        extractFrames g = case g of
+                            BowlingGame frames -> frames
 
-            --             expectedResult = TenthFrame (10,0,0)
-            --             gameAt10thFrame = repeatedRoll 17
+                        expectedResult = TenthFrame (10,0,0)
+                        gameAt10thFrame = repeatedRoll 17
 
-            --             strike = 10
+                        strike = 10
 
-            --             strikeRoll = Result.map (roll strike) gameAt10thFrame
-            --                 |> Result.andThen identity
+                        strikeRoll = Result.map (roll strike) gameAt10thFrame
+                            |> Result.andThen identity
 
-            --             firstStrikeValuedRoll = Result.map (roll 0) strikeRoll
-            --                 |> Result.andThen identity
+                        firstStrikeValuedRoll = Result.map (roll 0) strikeRoll
+                            |> Result.andThen identity
 
-            --             secondStrikeValuedRoll = Result.map (roll 0) firstStrikeValuedRoll
-            --                 |> Result.andThen identity
+                        secondStrikeValuedRoll = Result.map (roll 0) firstStrikeValuedRoll
+                            |> Result.andThen identity
 
-            --             fuck = Debug.log "**********" secondStrikeValuedRoll
+                        fuck = Debug.log "**********" secondStrikeValuedRoll
 
-            --             tenthFrame = secondStrikeValuedRoll
-            --                 |> Result.withDefault (BowlingGame [])
-            --                 |> extractFrames
-            --                 |> List.head
-            --                 |> Maybe.withDefault EmptyFrame
+                        tenthFrame = secondStrikeValuedRoll
+                            |> Result.withDefault (BowlingGame [])
+                            |> extractFrames
+                            |> List.head
+                            |> Maybe.withDefault EmptyFrame
                         
-            --           in
-            --             tenthFrame |> Expect.equal expectedResult
+                      in
+                        tenthFrame |> Expect.equal expectedResult
             ]
         ]
